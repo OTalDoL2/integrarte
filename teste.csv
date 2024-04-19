@@ -1,1 +1,2 @@
-fluxo, tipo_entrada, titulo, nome_beneficiario
+id,fluxo, tipo_entrada, titulo, nome_beneficiario, valor
+1,Entrada,Conta Bancária/pix,Silva,Mensalidade,150

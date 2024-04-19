@@ -74,24 +74,29 @@ tipo_transacao = t.get()
 
 print(t.get())
 
-def gera_df(fluxo, tipo_entrada, titulo, nome_beneficiario):
-    
+def gera_df(fluxo, tipo_entrada, titulo, nome_beneficiario, valor):
     if(fluxo != "Entrada"):
         if titulo != "" and nome_beneficiario == "":
             print("tudo, menos adicional")
         else: 
             titulo = nome_beneficiario
             nome_beneficiario = 'Integrarte'
-            fluxo, tipo_entrada, titulo
             print("Apenas adicional")
             
-    dados = {"fluxo": fluxo, "tipo_entrada": tipo_entrada, "titulo": titulo, "nome_beneficiario": nome_beneficiario}
+    print("aaaaaaa")
+    dados = {"fluxo": fluxo, "tipo_entrada": tipo_entrada, "titulo": titulo, "nome_beneficiario": nome_beneficiario, "valor": valor}
     df = pd.read_csv('teste.csv')
-    df['fluxo'].loc[len(df)] = fluxo
-    df['tipo_entrada'].loc[len(df)] = tipo_entrada
-    df['titulo'].loc[len(df)] = titulo
-    df['nome_beneficiario'].loc[len(df)] = nome_beneficiario
-    df.to_csv('me respeita.csv')
+    
+    # df = df.append({'fluxo': fluxo, 'tipo_entrada': tipo_entrada, 'titulo': titulo, 'nome_beneficiario': nome_beneficiario}, ignore_index=True)
+
+    df.loc[-1] = [fluxo, tipo_entrada, titulo, nome_beneficiario, valor]
+    df.index = df.index + 1
+    df = df.sort_index()
+    # df['fluxo'].iloc[len(df)] = fluxo
+    # df['tipo_entrada'].iloc[len(df)] = tipo_entrada
+    # df['titulo'].iloc[len(df)] = titulo
+    # df['nome_beneficiario'].iloc[len(df)] = nome_beneficiario
+    df.to_csv('teste.csv')
     print(len(df))
     print(df.info())
 
@@ -105,8 +110,28 @@ eR1.place(x=300,y=435)
 eR2 = Radiobutton(window, text="Saída", variable=e, value="Saída", command=sel)
 eR2.place(x=300,y=455)
 
-botao_gerar = Button(window, text='Gerar Gráficos', command = lambda: gera_df(e.get(), t.get(), e1.get(),v.get()) if e.get() == "Entrada" else gera_df(e.get(), t.get(), v2.get(), e2.get()))
-botao_gerar.place(x=425,y=435)
+
+slabel2 = Label(window, text="Valor:", font="times 12")
+slabel2.place(x=20 + 80 + 340, y=420)
+e3 = Entry(window)
+e3.place(x=75 + 80 + 340,y=420)
+
+botao_gerar = Button(window, text='Gerar Gráficos', command = lambda: gera_df(e.get(), t.get(), e1.get(), v.get(), e3.get()) if e.get() == "Entrada" else gera_df(e.get(), t.get(), v2.get(), e2.get(), e3.get()))
+botao_gerar.place(x=500,y=455)
+
+
+
+
 
 
 window.mainloop()
+
+
+
+
+
+
+
+
+
+# Colocar visor de fluxo de caixa (diário)
