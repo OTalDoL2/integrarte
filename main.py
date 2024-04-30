@@ -64,7 +64,6 @@ tipo_transacao = t.get()
 print(t.get())
 
 def gera_df(fluxo, tipo_entrada, titulo, nome_beneficiario, valor):
-    
     if(fluxo != "Entrada"):
         if titulo != "" and nome_beneficiario == "":
             print("tudo, menos adicional")
@@ -91,7 +90,6 @@ eR1.place(x=300,y=435)
 
 eR2 = Radiobutton(window, text="Saída", variable=e, value="Saída", command=sel)
 eR2.place(x=300,y=455)
-
 valor = Entry(window)
 valor.place(x=425,y=240)
                         
