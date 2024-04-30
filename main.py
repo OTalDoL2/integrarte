@@ -4,11 +4,7 @@ import pandas as pd
 window = Tk()
 window.geometry("700x500")
 
-def haha(he):
-    label2 = Label(window, text=he, font="times 28 bold")
-    label2.place(x=350, y=210)
-
-v = StringVar(window, "0")
+titulo_value = StringVar(window, "0")
 
 
 def sel():
@@ -18,11 +14,11 @@ def sel():
 label1 = Label(window, text="Entrada", font="times 16 bold")
 label1.place(x=10, y=20)
 
-R1 = Radiobutton(window, text="Doação", variable=v, value="Doação", command=sel)
+R1 = Radiobutton(window, text="Doação", variable=titulo_value, value="Doação", command=sel)
 R1.place(x=20,y=45)
-R2 = Radiobutton(window, text="Mensalidade", variable=v, value="Mensalidade", command=sel)
+R2 = Radiobutton(window, text="Mensalidade", variable=titulo_value, value="Mensalidade", command=sel)
 R2.place(x=20,y=65)
-R2 = Radiobutton(window, text="Ação", variable=v, value="Ação", command=sel)
+R2 = Radiobutton(window, text="Ação", variable=titulo_value, value="Ação", command=sel)
 R2.place(x=20,y=85)
 
 
@@ -31,13 +27,6 @@ label2.place(x=20, y=110)
 e1 = Entry(window)
 e1.place(x=75,y=114)
 
-
-# sR1 = Radiobutton(window, text="Doação", variable=v, value="Doação", command=sel)
-# sR1.place(x=20 + 340,y=45)
-# sR2 = Radiobutton(window, text="Mensalidade", variable=v, value="Mensalidade", command=sel)
-# sR2.place(x=20 + 340,y=65)
-# sR2 = Radiobutton(window, text="Ação", variable=v, value="Mensalidade", command=sel)
-# sR2.place(x=20 + 340,y=85)
 
 v2 = StringVar(window, "")
 
@@ -82,24 +71,15 @@ def gera_df(fluxo, tipo_entrada, titulo, nome_beneficiario, valor):
             titulo = nome_beneficiario
             nome_beneficiario = 'Integrarte'
             print("Apenas adicional")
-            
-    print("aaaaaaa")
-    dados = {"fluxo": fluxo, "tipo_entrada": tipo_entrada, "titulo": titulo, "nome_beneficiario": nome_beneficiario, "valor": valor}
-    df = pd.read_csv('teste.csv')
+
+    arquivofinal = pd.read_csv('me respeita.csv')
+
+    dados_dict = {"fluxo": fluxo, "tipo_entrada": tipo_entrada, "titulo": titulo, "nome_beneficiario": nome_beneficiario, "valor": valor}
+    dados_df = pd.DataFrame([dados_dict])
+    dados = pd.concat([arquivofinal, dados_df], ignore_index=True)
+
+    dados.to_csv('me respeita.csv', index=False)
     
-    # df = df.append({'fluxo': fluxo, 'tipo_entrada': tipo_entrada, 'titulo': titulo, 'nome_beneficiario': nome_beneficiario}, ignore_index=True)
-
-    df.loc[-1] = [fluxo, tipo_entrada, titulo, nome_beneficiario, valor]
-    df.index = df.index + 1
-    df = df.sort_index()
-    # df['fluxo'].iloc[len(df)] = fluxo
-    # df['tipo_entrada'].iloc[len(df)] = tipo_entrada
-    # df['titulo'].iloc[len(df)] = titulo
-    # df['nome_beneficiario'].iloc[len(df)] = nome_beneficiario
-    df.to_csv('teste.csv')
-    print(len(df))
-    print(df.info())
-
 
 e = StringVar(window, "0")
 elabel1 = Label(window, text="Entrada/Saída", font="times 12 bold")
@@ -107,31 +87,14 @@ elabel1.place(x=300, y=415)
 
 eR1 = Radiobutton(window, text="Entrada", variable=e, value="Entrada", command=sel)
 eR1.place(x=300,y=435)
+
 eR2 = Radiobutton(window, text="Saída", variable=e, value="Saída", command=sel)
 eR2.place(x=300,y=455)
-
-
-slabel2 = Label(window, text="Valor:", font="times 12")
-slabel2.place(x=20 + 80 + 340, y=420)
-e3 = Entry(window)
-e3.place(x=75 + 80 + 340,y=420)
-
-botao_gerar = Button(window, text='Gerar Gráficos', command = lambda: gera_df(e.get(), t.get(), e1.get(), v.get(), e3.get()) if e.get() == "Entrada" else gera_df(e.get(), t.get(), v2.get(), e2.get(), e3.get()))
-botao_gerar.place(x=500,y=455)
-
-
-
-
+valor = Entry(window)
+valor.place(x=425,y=240)
+                        
+botao_gerar = Button(window, text='Gerar Gráficos', command = lambda: gera_df(e.get(), t.get(), e1.get(),titulo_value.get(), valor.get()) if e.get() == "Entrada" else gera_df(e.get(), t.get(), v2.get(), e2.get(), valor.get()))
+botao_gerar.place(x=425,y=435)
 
 
 window.mainloop()
-
-
-
-
-
-
-
-
-
-# Colocar visor de fluxo de caixa (diário)
